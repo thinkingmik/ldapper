@@ -1,0 +1,37 @@
+{
+  "name": "ldapper",
+  "version": "1.0.0",
+  "description": "Node module that provides an ldapjs client",
+  "main": "./lib/ldapper.js",
+  "scripts": {
+    "start": "node ./lib/ldapper.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thinkingmik/ldapper.git"
+  },
+  "keywords": [
+    "ldapjs",
+    "ldap",
+    "activedirectory",
+    "client"
+  ],
+  "author": "Michele Andreoli <michi.andreoli@gmail.com> (https://github.com/thinkingmik)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thinkingmik/ldapper/issues"
+  },
+  "homepage": "https://github.com/thinkingmik/ldapper#readme",
+  "dependencies": {
+    "binary": "^0.3.0",
+    "bluebird": "^3.5.0",
+    "crypton": "^1.0.5",
+    "ldapjs": "^1.0.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cheerio": "^0.22.0",
+    "mocha": "^3.2.0"
+  }
+}
