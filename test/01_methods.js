@@ -16,24 +16,24 @@ var entry = {
   uidNumber: '50623',
   gidNumber: '0',
   homeDirectory: '0',
-  mail: ['test@acme.com'],
   objectclass: ['inetOrgPerson', 'posixAccount']
 };
 
 var changes = [
-  { op: 'replace', attr: 'loginShell', val: 'test.01' },
-  { op: 'delete', attr: 'carLicense', val: '1' }
+  { op: 'add', attr: 'mail', val: 'test.01@acme.com' },
+  { op: 'replace', attr: 'displayName', val: 'mr. test user' },
+  { op: 'delete', attr: 'loginShell' }
 ]
 
 var options = {
   domainControllers: ['192.168.99.100'],
   searchScope: 'ou=users,dc=acme,dc=com',
-  tombstone: null,
+  tombstone: 'ou=Deleted Objects,dc=acme,dc=com',
   root: {
     dn: 'cn=admin,dc=acme,dc=com',
     password: {
-      crypton: true,
-      value: 'uV1ju3uY1JerhQ9z/nPr2w=='
+      crypton: false,
+      value: 'admin'
     }
   },
   crypton: null,
@@ -115,7 +115,7 @@ describe('Call ldapper authenticate method', function() {
     });
   });
 });
-/*
+
 describe('Call ldapper add method', function() {
   this.timeout(5000);
   it('should return a new entry', function() {
@@ -132,14 +132,14 @@ describe('Call ldapper add method', function() {
     });
   });
 });
-*/
+
 describe('Call ldapper change method', function() {
   this.timeout(5000);
-  it('should return true', function() {
+  it('should return a modified entry', function() {
     return ldapper.change('uid=test,ou=users,dc=acme,dc=com', changes)
     .then(function(res) {
       expect(res).to.not.be.null;
-      expect(res).to.be.equal(true);
+      expect(res).to.have.property('dn');
     });
   });
   it('should return a LDAPChangeError', function() {
@@ -149,7 +149,7 @@ describe('Call ldapper change method', function() {
     });
   });
 });
-/*
+
 describe('Call ldapper rename method', function() {
   this.timeout(5000);
   it('should return true', function() {
@@ -197,4 +197,3 @@ describe('Call ldapper delete method', function() {
     });
   });
 });
-*/
