@@ -28,7 +28,6 @@ var changes = [
 var options = {
   domainControllers: ['192.168.99.100'],
   searchScope: 'ou=users,dc=acme,dc=com',
-  tombstone: 'ou=Deleted Objects,dc=acme,dc=com',
   root: {
     dn: 'cn=admin,dc=acme,dc=com',
     password: {
