@@ -16,12 +16,13 @@ var entry = {
   uidNumber: '50623',
   gidNumber: '0',
   homeDirectory: '0',
-  objectclass: ['inetOrgPerson', 'posixAccount']
+  userPassword: 'Password1.',
+  objectclass: ['inetOrgPerson', 'posixAccount', 'top']
 };
 
 var changes = [
-  { op: 'add', attr: 'mail', val: 'test.01@acme.com' },
-  { op: 'replace', attr: 'displayName', val: 'mr. test user' },
+  { op: 'write', attr: 'mail', val: 'test.01@acme.com' },
+  { op: 'write', attr: 'displayName', val: 'mr test user' },
   { op: 'delete', attr: 'loginShell' }
 ]
 
