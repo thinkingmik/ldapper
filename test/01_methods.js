@@ -22,7 +22,8 @@ var entry = {
 
 var changes = [
   { op: 'write', attr: 'mail', val: 'test.01@acme.com' },
-  { op: 'write', attr: 'displayName', val: 'mr test user' },
+  { op: 'append', attr: 'mail', val: 'test.02@acme.com' },
+  { op: 'append', attr: 'mail', val: 'test.03@acme.com' },
   { op: 'delete', attr: 'loginShell' }
 ]
 
