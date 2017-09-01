@@ -9,6 +9,7 @@ Node module that provides wrapper methods for [`ldapjs`](http://ldapjs.org/clien
   * [Methods](#methods)
     * [find](#find)
     * [findOne](#findOne)
+    * [findGuid](#findGuid)
     * [add](#add)
     * [change](#change)
     * [rename](#rename)
@@ -141,6 +142,30 @@ __Arguments__
 
 ```code
 dn            {string} Distinguished name
+[attributes]  {Array} Specify returned attributes
+[options]     {object} Overrides configuration for searchOptions
+```
+
+__Returns__
+
+```code
+{Object} Returns the entry
+```
+
+__Throws__
+
+```code
+{LDAPSearchError}
+```
+---------------------------------------
+
+### <a name="findGuid"/>findGuid( guid, [attributes], [options] ) : Promise( Object )
+Get an entry from ldap by objectGuid.
+
+__Arguments__
+
+```code
+guid          {string|Buffer} Object guid
 [attributes]  {Array} Specify returned attributes
 [options]     {object} Overrides configuration for searchOptions
 ```
