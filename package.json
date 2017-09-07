@@ -1,6 +1,6 @@
 {
   "name": "ldapper",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Node module that provides an ldapjs client",
   "main": "./lib/ldapper.js",
   "scripts": {
