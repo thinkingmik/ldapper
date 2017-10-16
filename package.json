@@ -24,14 +24,14 @@
   "homepage": "https://github.com/thinkingmik/ldapper#readme",
   "dependencies": {
     "binary": "^0.3.0",
-    "bluebird": "^3.5.0",
-    "crypton": "^1.0.6",
+    "bluebird": "^3.5.1",
+    "crypton": "^1.0.8",
     "ldapjs": "^1.0.1",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "cheerio": "^0.22.0",
-    "mocha": "^3.2.0"
+    "chai": "^4.1.2",
+    "cheerio": "^1.0.0-rc.2",
+    "mocha": "^4.0.1"
   }
 }
