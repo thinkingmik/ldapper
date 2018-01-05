@@ -1,4 +1,4 @@
-Ldapper 1.x
+Ldapper 2.x
 ================
 Node module that provides wrapper methods for [`ldapjs`](http://ldapjs.org/client.html) client.
 
@@ -28,31 +28,24 @@ $ npm install -save ldapper
 Let's start! Include in your node application `ldapper` module:
 
 ```javascript
-//require object
-var Ldapper = require('ldapper').Ldapper;
-//or require factory
-var factory = require('ldapper');
+//import ldapper
+import { Ldapper } from 'ldapper';
 
 //create options
-var options = {
+const options = {
   domainControllers: ['192.168.99.100'],
   searchScope: 'ou=users,dc=acme,dc=com',
   root: {
     dn: 'cn=admin,dc=acme,dc=com',
-    password: {
-      crypton: false,
-      value: 'admin'
-    }
+    password: 'admin'
   }     
 };
 
 //create an instance
-var ldappermanager1 = new Ldapper(options);
-//or use factory
-var ldappermanager2 = factory.create(options);
+let ldapper = new Ldapper(options);
 
-ldappermanager1.find('|(cn=test*)(sn=test*)')
-.then(function(res) {
+ldapper.find('|(cn=test*)(sn=test*)')
+.then(res => {
   console.log(res);
 });
 ```
@@ -61,11 +54,11 @@ ldappermanager1.find('|(cn=test*)(sn=test*)')
 # <a name="construction"></a>Construction
 A `Ldapper` instance can be created using factory or using the `new` keyword.
 ```javascript
-var factory = require('ldapper');
-var ldappermanager1 = factory.create();
+import factory from 'ldapper';
+let ldapper = factory.create();
 //or
-var Ldapper = require('ldapper').Ldapper;
-var ldappermanager2 = new Ldapper();
+import { Ldapper } from 'ldapper';
+let ldapper = new Ldapper();
 ```
 
 ### <a name="require"/>new Ldapper( [options] ) : Object
@@ -97,12 +90,8 @@ The configuration object allows you to overrides default values. If you don't sp
   },
   root: {
     dn: null,
-    password: {
-      crypton: false,
-      value: null
-    }
-  },
-  crypton: null,
+    password: null
+  }
   ssl: false,
   timeout: null,
   connectTimeout: null,
@@ -346,4 +335,4 @@ __Throws__
 # <a name="license"></a>License
 The [MIT License](https://github.com/thinkingmik/ldapper/blob/master/LICENSE)
 
-Copyright (c) 2017 Michele Andreoli <http://thinkingmik.com>
+Copyright (c) 2018 Michele Andreoli <http://thinkingmik.com>
