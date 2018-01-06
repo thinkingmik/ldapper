@@ -23,23 +23,23 @@ class Ldapper {
   * Search entries into ldap
   * @param {string} [filter]
   * @param {Array} [attributes]
-  * @param {string} [searchDn]
+  * @param {string} [searchScope]
   * @param {Object} [options]
   * @return {Promise<Array>}
   * @throws LDAPSearchError
   */
-  find(filter, attributes, searchDn, options) {
-    const opts = {};
+  find(filter, attributes, searchScope, options) {
+    let opts = {};
     const appconfig = this._config.getOptions();
     opts['filter'] = (!_.isNull(filter) && !_.isUndefined(filter)) ? filter : appconfig.searchOptions.filter;
     opts['attributes'] = (!_.isNull(attributes) && !_.isUndefined(attributes)) ? attributes : appconfig.searchOptions.attributes;
     opts['scope'] = (!_.isNull(options) && !_.isUndefined(options) && !_.isNull(options.scope) && !_.isUndefined(options.scope)) ? options.scope : appconfig.searchOptions.scope;
     opts['sizeLimit'] = (!_.isNull(options) && !_.isUndefined(options) && !_.isNull(options.sizeLimit) && !_.isUndefined(options.sizeLimit)) ? options.sizeLimit : appconfig.searchOptions.sizeLimit;
     opts['paged'] = (!_.isNull(options) && !_.isUndefined(options) && !_.isNull(options.paged) && !_.isUndefined(options.paged)) ? options.paged : appconfig.searchOptions.paged;
-    searchDn = (!_.isNull(searchDn) && !_.isUndefined(searchDn)) ? searchDn : appconfig.searchScope;
+    searchScope = (!_.isNull(searchScope) && !_.isUndefined(searchScope)) ? searchScope : appconfig.searchScope;
 
     return connectionManager.createClient(appconfig)
-      .then(client => searchManager.search(searchDn, opts, client, appconfig, true));
+      .then(client => searchManager.search(searchScope, opts, client, appconfig, true));
   }
 
   /**
@@ -51,28 +51,28 @@ class Ldapper {
   * @throws LDAPSearchError
   */
   findOne(dn, attributes, options) {
-    const opts = {};
+    let opts = {};
     const appconfig = this._config.getOptions();
     opts['attributes'] = (!_.isNull(attributes) && !_.isUndefined(attributes)) ? attributes : appconfig.searchOptions.attributes;
     opts['scope'] = 'sub';
     opts['sizeLimit'] = 0;
     opts['paged'] = false;
-    const searchDn = dn;
 
     return connectionManager.createClient(appconfig)
-      .then(client => searchManager.searchOne(searchDn, opts, client, appconfig, true));
+      .then(client => searchManager.searchOne(dn, opts, client, appconfig, true));
   }
 
   /**
   * Get an entry from objectGuid
   * @param {string|Buffer} guid
   * @param {Array} [attributes]
+  * @param {string} [searchScope]
   * @param {Object} [options]
   * @return {Promise<Object>}
   * @throws LDAPSearchError
   */
-  findGuid(guid, attributes, options) {
-    const opts = {};
+  findGuid(guid, attributes, searchScope, options) {
+    let opts = {};
     const appconfig = this._config.getOptions();
     let buffer = null;
     if (Buffer.isBuffer(guid) === true || _.isNull(guid) || _.isUndefined(guid)) {
@@ -90,22 +90,23 @@ class Ldapper {
     opts['scope'] = 'sub';
     opts['sizeLimit'] = 0;
     opts['paged'] = false;
-    const searchDn = (!_.isNull(searchDn) && !_.isUndefined(searchDn)) ? searchDn : appconfig.searchScope;
+    searchScope = (!_.isNull(searchScope) && !_.isUndefined(searchScope)) ? searchScope : appconfig.searchScope;
 
     return connectionManager.createClient(appconfig)
-      .then(client => searchManager.searchOne(searchDn, opts, client, appconfig, true));
+      .then(client => searchManager.searchOne(searchScope, opts, client, appconfig, true));
   }
 
   /**
   * Get an entry from objectSid
   * @param {string|Buffer} sid
   * @param {Array} [attributes]
+  * @param {string} [searchScope]
   * @param {Object} [options]
   * @return {Promise<Object>}
   * @throws LDAPSearchError
   */
-  findSid(sid, attributes, options) {
-    const opts = {};
+  findSid(sid, attributes, searchScope, options) {
+    let opts = {};
     const appconfig = this._config.getOptions();
     let buffer = null;
     if (Buffer.isBuffer(sid) === true || _.isNull(sid) || _.isUndefined(sid)) {
@@ -123,10 +124,10 @@ class Ldapper {
     opts['scope'] = 'sub';
     opts['sizeLimit'] = 0;
     opts['paged'] = false;
-    const searchDn = (!_.isNull(searchDn) && !_.isUndefined(searchDn)) ? searchDn : appconfig.searchScope;
+    searchScope = (!_.isNull(searchScope) && !_.isUndefined(searchScope)) ? searchScope : appconfig.searchScope;
 
     return connectionManager.createClient(appconfig)
-      .then(client => searchManager.searchOne(searchDn, opts, client, appconfig, true));
+      .then(client => searchManager.searchOne(searchScope, opts, client, appconfig, true));
   }
 
   /**
@@ -222,14 +223,7 @@ class Ldapper {
   }
 }
 
-let factory = {
-  create: options => {
-    return new Ldapper(options);
-  }
-};
-
 export { Ldapper };
-export default factory;
 
 /* backward compatibility for ES5 'create' method: var ldapper = require('ldapper').create(); */
 module.exports.create = function(options) {

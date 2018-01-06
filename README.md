@@ -52,11 +52,8 @@ ldapper.find('|(cn=test*)(sn=test*)')
 
 # <a name="documentation"></a>Documentation
 # <a name="construction"></a>Construction
-A `Ldapper` instance can be created using factory or using the `new` keyword.
+A `Ldapper` instance can be created by using the `new` keyword.
 ```javascript
-import factory from 'ldapper';
-let ldapper = factory.create();
-//or
 import { Ldapper } from 'ldapper';
 let ldapper = new Ldapper();
 ```
@@ -100,7 +97,7 @@ The configuration object allows you to overrides default values. If you don't sp
 ```
 
 ## <a name="methods"></a>Methods
-### <a name="find"/>find( [filter], [attributes], [searchDn], [options] ) : Promise( Array )
+### <a name="find"/>find( [filter], [attributes], [searchScope], [options] ) : Promise( Array )
 Search entries from ldap.
 
 __Arguments__
@@ -108,8 +105,8 @@ __Arguments__
 ```code
 [filter]      {string} An ldap filter
 [attributes]  {Array} Specify returned attributes
-[searchDn]    {string} Search path
-[options]     {object} Overrides configuration for searchOptions
+[searchScope] {string} Overrides default search scope
+[options]     {object} Overrides searchOptions configuration
 ```
 
 __Returns__
@@ -133,7 +130,7 @@ __Arguments__
 ```code
 dn            {string} Distinguished name
 [attributes]  {Array} Specify returned attributes
-[options]     {object} Overrides configuration for searchOptions
+[options]     {object} Overrides searchOptions configuration
 ```
 
 __Returns__
@@ -149,7 +146,7 @@ __Throws__
 ```
 ---------------------------------------
 
-### <a name="findGuid"/>findGuid( guid, [attributes], [options] ) : Promise( Object )
+### <a name="findGuid"/>findGuid( guid, [attributes], [searchScope], [options] ) : Promise( Object )
 Get an entry from Active Directory by objectGuid.
 
 __Arguments__
@@ -157,7 +154,8 @@ __Arguments__
 ```code
 guid          {string|Buffer} Object guid
 [attributes]  {Array} Specify returned attributes
-[options]     {object} Overrides configuration for searchOptions
+[searchScope] {string} Overrides default search scope
+[options]     {object} Overrides searchOptions configuration
 ```
 
 __Returns__
@@ -173,7 +171,7 @@ __Throws__
 ```
 ---------------------------------------
 
-### <a name="findSid"/>findSid( sid, [attributes], [options] ) : Promise( Object )
+### <a name="findSid"/>findSid( sid, [attributes], [searchScope], [options] ) : Promise( Object )
 Get an entry from Active Directory by objectSid.
 
 __Arguments__
@@ -181,7 +179,8 @@ __Arguments__
 ```code
 sid           {string|Buffer} Object sid
 [attributes]  {Array} Specify returned attributes
-[options]     {object} Overrides configuration for searchOptions
+[searchScope] {string} Overrides default search scope
+[options]     {object} Overrides searchOptions configuration
 ```
 
 __Returns__
@@ -314,7 +313,7 @@ __Arguments__
 ```code
 username          {string} The username
 password          {string} The password
-[authAttributes]  {Array|string} Specify which attributes using for authentication
+[authAttributes]  {Array|string} Specify which attributes has been used for authentication
 [retAttribute]    {Array|string} Specify returned attributes
 [searchDn]        {string} Search path
 

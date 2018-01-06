@@ -28,7 +28,7 @@ const changes = [
 ];
 
 const options = {
-  domainControllers: ['192.168.99.100'],
+  domainControllers: ['192.168.1.145', '192.168.99.100'],
   searchScope: 'ou=users,dc=acme,dc=com',
   root: {
     dn: 'cn=admin,dc=acme,dc=com',
@@ -63,12 +63,12 @@ describe('Call ldapper find method', function () {
 
 describe('Call ldapper findOne method', function () {
   this.timeout(5000);
-  it('should return an entry', () => ldapper.findOne('uid=j.doe,ou=users,dc=acme,dc=com', ['cn'])
+  it('should return an entry', () => ldapper.findOne('cn=admin,ou=users,dc=acme,dc=com', ['cn'])
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.have.property('cn');
     }));
-  it('should return null', () => ldapper.findOne('uid=fake,ou=users,dc=acme,dc=com', ['cn'])
+  it('should return null', () => ldapper.findOne('cn=fake,ou=users,dc=acme,dc=com', ['cn'])
     .then(res => {
       expect(res).to.be.null;
     }));
@@ -80,16 +80,16 @@ describe('Call ldapper findOne method', function () {
 
 describe('Call ldapper authenticate method', function () {
   this.timeout(5000);
-  it('should return an entry', () => ldapper.authenticate('j.doe', 'Password1.', 'uid', 'cn')
+  it('should return an entry', () => ldapper.authenticate('admin', 'admin', 'cn', 'cn')
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.have.property('cn');
     }));
-  it('should return null', () => ldapper.authenticate('j.doe', 'Password2.', 'uid', 'cn')
+  it('should return null', () => ldapper.authenticate('admin', 'Password2.', 'cn', 'cn')
     .then(res => {
       expect(res).to.be.null;
     }));
-  it('should return a LDAPAuthenticationError', () => ldapper.authenticate('j.doe', 'Password1.', 'uid', 'cn', 'fakeDn')
+  it('should return a LDAPAuthenticationError', () => ldapper.authenticate('admin', 'admin', 'cn', 'cn', 'fakeDn')
     .catch(err => {
       expect(err.name).to.be.equal('LDAPAuthenticationError');
     }));
@@ -97,12 +97,12 @@ describe('Call ldapper authenticate method', function () {
 
 describe('Call ldapper add method', function () {
   this.timeout(5000);
-  it('should return a new entry', () => ldapper.add('uid=test,ou=users,dc=acme,dc=com', entry)
+  it('should return a new entry', () => ldapper.add('cn=test,ou=users,dc=acme,dc=com', entry)
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.have.property('dn');
     }));
-  it('should return a LDAPAddError', () => ldapper.add('uid=test,ou=users,dc=acme,dc=org', entry)
+  it('should return a LDAPAddError', () => ldapper.add('cn=test,ou=users,dc=acme,dc=org', entry)
     .catch(err => {
       expect(err.name).to.be.equal('LDAPAddError');
     }));
@@ -110,12 +110,12 @@ describe('Call ldapper add method', function () {
 
 describe('Call ldapper change method', function () {
   this.timeout(5000);
-  it('should return a modified entry', () => ldapper.change('uid=test,ou=users,dc=acme,dc=com', changes)
+  it('should return a modified entry', () => ldapper.change('cn=test,ou=users,dc=acme,dc=com', changes)
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.have.property('dn');
     }));
-  it('should return a LDAPChangeError', () => ldapper.change('uid=fake,ou=users,dc=acme,dc=com', changes)
+  it('should return a LDAPChangeError', () => ldapper.change('cn=fake,ou=users,dc=acme,dc=com', changes)
     .catch(err => {
       expect(err.name).to.be.equal('LDAPChangeError');
     }));
@@ -123,17 +123,17 @@ describe('Call ldapper change method', function () {
 
 describe('Call ldapper rename method', function () {
   this.timeout(5000);
-  it('should return true', () => ldapper.rename('uid=test,ou=users,dc=acme,dc=com', 'uid=testNew,ou=users,dc=acme,dc=com')
+  it('should return true', () => ldapper.rename('cn=test,ou=users,dc=acme,dc=com', 'cn=testNew,ou=users,dc=acme,dc=com')
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.be.equal(true);
     }));
-  it('should return false', () => ldapper.rename('uid=fake,ou=users,dc=acme,dc=com', 'uid=testNew,ou=users,dc=acme,dc=com')
+  it('should return false', () => ldapper.rename('cn=fake,ou=users,dc=acme,dc=com', 'cn=testNew,ou=users,dc=acme,dc=com')
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.be.equal(false);
     }));
-  it('should return a LDAPRenameError', () => ldapper.rename('uid=testNew,ou=users,dc=acme,dc=com', 'uid=testNew,ou=users,dc=acme,dc=com')
+  it('should return a LDAPRenameError', () => ldapper.rename('cn=testNew,ou=users,dc=acme,dc=com', 'cn=testNew,ou=users,dc=acme,dc=com')
     .catch(err => {
       expect(err.name).to.be.equal('LDAPRenameError');
     }));
@@ -141,17 +141,17 @@ describe('Call ldapper rename method', function () {
 
 describe('Call ldapper delete method', function () {
   this.timeout(5000);
-  it('should return true', () => ldapper.delete('uid=testNew,ou=users,dc=acme,dc=com')
+  it('should return true', () => ldapper.delete('cn=testNew,ou=users,dc=acme,dc=com')
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.be.equal(true);
     }));
-  it('should return false', () => ldapper.delete('uid=fake,ou=users,dc=acme,dc=com')
+  it('should return false', () => ldapper.delete('cn=fake,ou=users,dc=acme,dc=com')
     .then(res => {
       expect(res).to.not.be.null;
       expect(res).to.be.equal(false);
     }));
-  it('should return a LDAPDeleteError', () => ldapper.delete('uid=fake,ou=users,dc=acme,dc=org')
+  it('should return a LDAPDeleteError', () => ldapper.delete('cn=fake,ou=users,dc=acme,dc=org')
     .catch(err => {
       expect(err.name).to.be.equal('LDAPDeleteError');
     }));

@@ -5,9 +5,9 @@
   "main": "./dist/ldapper.js",
   "module": "./src/ldapper.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
-    "test": "npm run build && mocha --compilers js:babel-core/register",
+    "test": "npm run build && mocha --require babel-core/register",
     "start": "npm run build && node dist/ldapper.js"
   },
   "repository": {
